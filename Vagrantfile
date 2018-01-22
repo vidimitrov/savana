@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+$projects_domain = "savana"
+$network_ip = "10.5.0.10"
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -12,7 +15,16 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "hashicorp/precise64"
+  config.vm.box = "ubuntu/trusty64"
+
+  # Provision the guest machine
+  config.vm.provision "shell", path: "bootstrap.sh", args: [$network_ip]
+
+  # Forward SSH keys from host machine
+  config.ssh.forward_agent = true
+
+  # Set the VM hostname
+  config.vm.hostname = $projects_domain+".dev"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -26,7 +38,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: $network_ip
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -41,31 +53,12 @@ Vagrant.configure("2") do |config|
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
-  # such as FTP and Heroku are also available. See the documentation at
-  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provider "virtualbox" do |vb|
+    # No VirtualBox GUI during provisioning
+    vb.gui = false
+  
+    # Use 2GB memory
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
 end
