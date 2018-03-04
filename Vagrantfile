@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   # Set the VM hostname
-  config.vm.hostname = $projects_domain+".dev"
+  config.vm.hostname = $projects_domain
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
