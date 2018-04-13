@@ -1,1 +1,1 @@
-The environment required for every project in my development stack.
+The environment required for every project in my development stack. 
