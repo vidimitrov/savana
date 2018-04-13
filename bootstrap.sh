@@ -27,7 +27,7 @@ echo "StrictHostKeyChecking no" >> $HOME_DIR/.ssh/config
 apt-get update
 apt-get upgrade
 apt-get install -y rlwrap build-essential automake libtool coreutils python2.7 python-software-properties
-apt-get install -y nginx postgresql postgis postgresql-contrib redis-server vim tmux git libpq5 libpq-dev htop
+apt-get install -y postgresql postgis postgresql-contrib vim tmux git libpq5 libpq-dev htop
 
 # Configure PostgreSQL authentication
 rm /etc/postgresql/9.3/main/pg_hba.conf
@@ -53,7 +53,7 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 apt-get install -y nodejs
 
 # Install required NPM global modules
-# npm i -g typescript typings semver js-beautify json napa eslint node-gyp
+npm i -g pm2
 
 # Add local to PWD dev npm_modules to PATH
 # echo 'export PATH="./node_modules/.bin:$PATH"' >> $HOME_DIR/.bashrc
